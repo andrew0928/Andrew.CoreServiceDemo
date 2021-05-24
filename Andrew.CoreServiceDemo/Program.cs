@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Andrew.CoreServiceDemo
 {
@@ -8,6 +9,67 @@ namespace Andrew.CoreServiceDemo
         {
             Console.WriteLine("Hello World!");
         }
+    }
+
+
+
+    public class CoreEntityRepo<TEntity> where TEntity: EntityBasic
+    {
+        public TEntity GetEntityById(string id, int updateIndex = 0)
+        {
+            throw new NotImplementedException();
+        }
+
+        public TEntity GetEntityById(string id, DateTime snapshotAt)
+        {
+            throw new NotImplementedException;
+        }
+
+        public IEnumerable<TEntity> GetEntities()
+        {
+            yield break;
+        }
+        public IEnumerable<TEntity> GetEntities(DateTime snapshotAt)
+        {
+            yield break;
+        }
+
+
+
+        public TEntity Create(TEntity data)
+        {
+            data.ID = null; // assign unique id
+            data.UpdateIndex = 0;
+            data.UpdateTime = DateTime.UtcNow;
+
+            // do something else
+
+            throw new NotImplementedException();
+        }
+
+        public TEntity Update(TEntity data)
+        {
+            TEntity origin = this.GetEntityById(data.ID, 0);  // load origin entity from ID
+
+            if (origin.UpdateIndex != data.UpdateIndex) throw new InvalidOperationException();
+
+            // do something else
+
+            throw new NotImplementedException();
+        }
+
+        public TEntity Remove(TEntity data)
+        {
+            throw new NotImplementedException();
+        }
+
+
+    }
+
+    public class EntityLink<TEntity> where TEntity : EntityBasic
+    {
+        public string ID;
+        public int UpdateIndex;
     }
 
 
@@ -21,7 +83,7 @@ namespace Andrew.CoreServiceDemo
 
         public string TanentID { get; set; }
 
-        public int Version { get; set; }
+        public int UpdateIndex { get; set; }
 
         public DateTime UpdateTime { get; set; }
 
